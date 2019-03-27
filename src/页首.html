@@ -1,0 +1,237 @@
+<!-- 书体坊赵九江钢笔行书 -->
+<link href='//files.cnblogs.com/files/enjoy233/youziku.com_stfzjjgangbixin17c2fb7ee61f271.css' rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="//cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- 评论特效 -->
+<link href="//files.cnblogs.com/files/enjoy233/feedback.css" rel="stylesheet">  
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//files.cnblogs.com/files/enjoy233/ic-write_IconFont.css" rel="stylesheet">
+
+<script type="text/javascript">
+    var availableTags = [
+        "git", "Git",
+        "C#", "C++", "算法",
+        "ASP", "MySQL", "Oracle",
+        "HTML", "CSS", "JavaScript",
+        "jQuery", "AJAX", "微软系列技术",
+        "Sublime",
+        "Visual Studio Code",
+        "Eclipse",
+        "C#开发", "C++开发", "Java开发",
+        "PHP开发",
+        "Python开发",
+        "Web前端开发",
+        "Windows Forms",
+        "WPF",
+        "计算机数学",
+        "浏览器插件",
+        "软件推荐",
+        "算法实践",
+        "专业学习",
+        "Leetcode",
+        "知乎",
+        "Bravo Yeung",
+        "legege007",
+        "enjoy233",
+        "数学",
+        "内容太长，显示其中的一部分"
+    ];
+    var old_value = "";
+    var highlightindex = -1;   //高亮
+    //自动完成
+    function AutoComplete(auto, search, mylist) {
+        if ($("#" + search).val() != old_value || old_value == "") {
+            var autoNode = $("#" + auto);   //缓存对象（弹出框）
+            var carlist = new Array();
+            var n = 0;
+            old_value = $("#" + search).val();
+            for (i in mylist) {
+                if (mylist[i].indexOf(old_value) >= 0) {
+                    carlist[n++] = mylist[i];
+                }
+            }
+            if (carlist.length == 0) {
+                autoNode.hide();
+                return;
+            }
+            autoNode.empty();  //清空上次的记录
+            for (i in carlist) {
+                var wordNode = carlist[i];   //弹出框里的每一条内容
+                var newDivNode = $("<div>").attr("id", i);    //设置每个节点的id值
+                newDivNode.attr("style", "font:14px/25px arial;height:25px;padding:0 8px;cursor: pointer;");
+                newDivNode.html(wordNode).appendTo(autoNode);  //追加到弹出框
+                //鼠标移入高亮，移开不高亮
+                newDivNode.mouseover(function () {
+                    if (highlightindex != -1) {        //原来高亮的节点要取消高亮（是-1就不需要了）
+                        autoNode.children("div").eq(highlightindex).css("background-color", "white");
+                    }
+                    //记录新的高亮节点索引
+                    highlightindex = $(this).attr("id");
+                    $(this).css("background-color", "#ebebeb");
+                });
+                newDivNode.mouseout(function () {
+                    $(this).css("background-color", "white");
+                });
+                //鼠标点击文字上屏
+                newDivNode.click(function () {
+                    //取出高亮节点的文本内容
+                    var comText = autoNode.hide().children("div").eq(highlightindex).text();
+                    highlightindex = -1;
+                    //文本框中的内容变成高亮节点的内容
+                    $("#" + search).val(comText);
+                })
+                if (carlist.length > 0) {    //如果返回值有内容就显示出来
+                    autoNode.show();
+                } else {               //服务器端无内容返回 那么隐藏弹出框
+                    autoNode.hide();
+                    //弹出框隐藏的同时，高亮节点索引值也变成-1
+                    highlightindex = -1;
+                }
+            }
+        }
+        //点击页面隐藏自动补全提示框
+        document.onclick = function (e) {
+            var e = e ? e : window.event;
+            var tar = e.srcElement || e.target;
+            if (tar.id != search) {
+                if ($("#" + auto).is(":visible")) {
+                    $("#" + auto).css("display", "none")
+                }
+            }
+        }
+    }
+    $(function () {
+        old_value = $("#zzk_q").val();
+        $("#zzk_q").keyup(function () {
+            AutoComplete("auto_div", "zzk_q", availableTags);
+        });
+    });
+    function quickdelete() {
+        document.getElementById("zzk_q").value = "";
+    }
+    function zzk_go() {
+        var n = encodeURIComponent(document.getElementById("zzk_q").value);
+        window.location = "//zzk.cnblogs.com/s?w=blog%3AEnjoy233+" + n + "&t="
+    }
+    function zzk_go2() {
+        var n = encodeURIComponent(document.getElementById("zzk_q").value);
+        window.location = "//zzk.cnblogs.com/s?w=" + n
+    }
+    function zzk_go_enter(n) {
+        if (n.keyCode == 13)
+            return zzk_go(), !1
+    }
+</script>
+
+<div class="side_search">
+    <input type="text" id="zzk_q" class="search_input" onkeydown="return zzk_go_enter(event);" placeholder="输入 回车搜索" tabindex="1" autofocus x-webkit-speech>
+    <div id="auto_div">
+    </div>
+    <input onclick="quickdelete()" type="button" class="delete_btn" value="×" title="清空">    
+    <!-- <button id="clearAll" onclick="quickdelete()"><i class="fa fa-times"></i></button> -->
+    <input onclick="zzk_go()" type="button" class="search_btn" value="本博搜索">
+    <input onclick="zzk_go2()" type="button" class="search_btn2" value="园内搜索">
+</div>
+<div id="music163player" style="display: table; text-align: center; width: 40%; height: 55%;">
+    <embed border="0" marginwidth="0" marginheight="0" width=320 height=70 src="//music.163.com/outchain/player?type=2&id=26237342&auto=0&height=66">
+</div>
+
+<div id="customHeader">
+<div id="customH1">
+ <div id="myH1" class="animateTitle">
+   <a href="//enjoy233.cnblogs.com">
+       <span class="eng" style="font-family:'Segoe Print', 'Segoe Script'">Bravo Yeung</span>
+       <span class="chi" style="font-family:'Segoe Print', 'Segoe Script', 'stfzjjgangbixin17c2fb7ee61f271';">技术自留地</span>
+   </a>
+</div>
+</div>
+<div id="customH2">
+<a  id="myH2" style="color:gray;font-family:微软雅黑;font-size: 15px;font-weight: bold; margin-bottom: 10px;" href="javascript:void(0);">极简编程：IT人实践之路</a>
+</div>
+
+<div class="newPostInRight">    
+       <a href="//i.cnblogs.com/EditPosts.aspx?opt=1" class="aa" target="_blank">写文章</a> 
+</div>
+
+<div id='forkMe'>
+    <a href="//github.com/yanglr" target="_blank" style="position: absolute;right: 0;  top: 0; z-index: 100;">
+        <img src="//images.cnblogs.com/cnblogs_com/enjoy233/1389971/o_git-right-link.gif" alt="Fork me on github" width=100px height=100px>
+    </a>
+</div>
+
+    <div id="topNav" >
+    <ul style="margin-left:0px;margin-right: 0px;">
+        <li id="cus_nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="//www.cnblogs.com/" target="_blank" >博客园</a></li>
+        <li id="cus_nav_myhome"><a id="blog_nav_myhome" class="menu" href="//home.cnblogs.com/u/enjoy233" target="_blank" >我的首页</a></li>
+        <li id="cus_nav_newpost"><a id="custom_nav_newpost" class="menu" href="//i.cnblogs.com/EditPosts.aspx?opt=1" target="_blank">写博客</a></li>
+        <li id="cus_nav_contact"><a id="cus-nav_contact" class="menu" href="//msg.cnblogs.com/send/Enjoy233" target="_blank">私信我</a></li>
+        <li id="cus_nav_rss"><a id="nav_rss" class="menu" href="//www.cnblogs.com/enjoy233/rss" target="_blank" >RSS订阅</a></li>
+        <li id="cus_nav_ing"><a id="enjoy233" rel="nofollow" href="//ing.cnblogs.com/u/enjoy233" target="_blank" title="进入我的闪存">闪存</a></li><li id="nav_follow"><a id="enjoy233" rel="nofollow" href="//home.cnblogs.com/u/enjoy233/followees/" target="_blank" title="进入我的关注">我关注</a></li>                                 
+    
+       <div class="dropdown" id="cat1">
+      <a href="#" class="dropbtn">后台管理</a>
+        <div class="dropdown-content">
+            <a class="menu" href="//i.cnblogs.com/Configure.aspx" target="_blank">GUI配置</a>         
+           <a class="menu" href="//i.cnblogs.com/posts" target="_blank">博文列表</a>   
+           <a class="menu" href="//wz.cnblogs.com/" target="_blank">网摘夹</a>      
+           <a class="menu" href="//i.cnblogs.com/Files.aspx" target="_blank">文件</a>
+            <a class="menu" href="//i.cnblogs.com/EditGalleries.aspx" target="_blank">相册</a>
+        </div>
+      </div> 
+    </ul>
+</div> 
+
+</div>
+
+<script language="javascript" type="text/javascript">
+        if (isLogined) $('#customH2').append('<a href="//passport.cnblogs.com/logout.aspx?ReturnURL=//www.cnblogs.com/enjoy233/" id="logout" style="float:right;margin-top: 32px;margin-right: 20px;" title="退出登录"><img src="//images.cnblogs.com/cnblogs_com/enjoy233/1389971/o_logout64p.png" width="30px" height="30px"></a>');
+        else
+            $("#customH2").append('<a href="#"  id="login" style="float:right;margin-top: 32px;margin-right: 20px;" title="登录"><img src="//www.cnblogs.com/images/cnblogs_com/enjoy233/1389971/o_login_blue.png" width=30px height=30px onclick="login();return false"></a>');
+
+    $(function () {
+        $('#customHeader').append('<div id="customBlogStat" style="color:white; font-weight:bold; margin-top: 10px; margin-left: 8px;">' + $('#blog_stats').html() + '</div>');
+        initCommentData();
+       <!-- 指定返回底部位置 postEnd -->
+       if (document.location.href.indexOf('/p/') > 0 || document.location.href.indexOf('/archive/') > 0 || document.location.href.indexOf('/articles') > 0 || document.location.href.indexOf('/diary/') > 0) {
+            $("#home").prepend('<a href="#signature" alt="一键置底" title="快速置底"><div id="postEnd" style="zoom:0;"></div></a>');
+            $('.postTitle').append('<a id="quickEdit" alt="编辑" title="快速编辑" style="float: right; margin-top:-13.5px; margin-right:4px;"></a>');
+            $('#post_detail').find('#quickEdit').html("<a id='customEdit' href='//i.cnblogs.com/EditPosts.aspx?postid=" + cb_entryId + "'>编辑<i class='fa fa-pencil' style='font-size: 15px; display: inline; margin-left: 4px; color:black;'></i></a>");    /* 编辑✎ */
+        }
+
+          $('#customH1').addClass('animated bounceInLeft');
+          $('#customH2').addClass('animated bounceInRight');
+        // $('.cnblogs-markdown a').attr('target', '_blank');  // 所有markdown模式下的链接在新窗口打开
+        // 除了目录，博客内的链接在新窗口打开
+        $("#cnblogs_post_body a").each(function () {
+            this.target = "_blank";
+        });
+        $('.toc-list').find('a').attr('target', '_self');
+        // 本人时显示最近评论
+        var follow = $('#profile_block').find('#p_b_follow');
+        var block = follow.length >= 1 ? follow[0] : "";
+        var followText = (block != null && block != undefined) ? block.innerHTML : "";
+        if(followText != "")  $('.catListComment').hide();  // followText == ""时是自己，是别人时，含有子串 关注/已关注
+        // if($('#tbCommentAuthor').val() == 'Enjoy233') $('#sidebar_recentcomments ').show();  // 只对正文页有用，对首页无效
+
+        //为右下角推荐推荐区域添加关注按钮
+        $('#div_digg').prepend('<div style="padding-bottom: 5px"><span class="icon_favorite" style="padding-top: 2px"></span><a onclick="follow(\'27f8db64-eee4-e111-aa3f-842b2b196315\');" href="javascript:void(0);"  style="font-weight: bold; padding-left:5px;">🌵关注下博主呗</a> </div>');
+    });
+    function initCommentData() {
+        $('.feedbackItem').each(function () {
+            var text = $(this).find('.feedbackListSubtitle .layer').text();
+            // 将楼层信息放到data里面
+            if ($(this).find('.feedbackListSubtitle .louzhu').length > 0) $(this).addClass('myself');
+            var avatar = $(this).find('> .feedbackCon > span').html() || '//pic.cnitblog.com/face/sample_face.gif';
+            if (avatar.indexOf("pic.cnitblog.com/face/sample_face.gif") >= 0)
+                avatar = "//files.cnblogs.com/files/enjoy233/unknow-bSite.gif";
+            var nodeComment = $(this).find('> .feedbackCon > .blog_comment_body');
+            if (nodeComment.html().indexOf(avatar) == -1)
+                nodeComment.append('<img class="user-avatar" src="' + avatar + '"/>');
+        });
+    }
+    $(document).ajaxComplete(function (event, xhr, settings) {
+        // 监听获取评论ajax事件
+        if (settings.url.indexOf('/mvc/blog/GetComments.aspx') >= 0) {
+            initCommentData();
+        }
+    });
+</script>
